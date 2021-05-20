@@ -1,3 +1,4 @@
 .idea/
 db.sqlite3
 toe_store_venv
+/static/images/

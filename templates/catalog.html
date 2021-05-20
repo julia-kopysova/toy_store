@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}Catalog{% endblock %}
+
+{% block content %}
+
+    <div class="small-container">
+      <div class="row row-2">
+        {% if type_toy is not None %}
+        <h2>{{ type_toy }}</h2>
+            {% else %}
+            <h2>All toys</h2>
+        {% endif %}
+            <section>
+              <h2>Categories</h2>
+              <a href="{% url 'catalog'  %}"><p>All</p></a>
+              {%for type in types_toy %}
+               <a href="{% url 'filter' type.slug %}"><p>{{type.name}}</p></a>
+              {% endfor %}
+            </section>
+
+      </div>
+
+      <div class="row">
+          {%for toy in toys %}
+        <div class="col-4">
+          <img src="{{toy.image.url}}" alt="" width="50px" height="200px"/>
+          <h4>{{toy.name}}</h4>
+          <p>${{toy.price}}</p>
+        </div>
+
+          {% endfor %}
+        </div>
+      </div>
+
+    <div class="page-btn" >
+  	<span id ="btnMore">Load more</span>
+    </div>
+
+    <script src="{% static 'js/more_guide.js' %}"></script>
+    <script src="{% static 'js/jquery.vide.js' %}"></script>
+{% endblock content %}
