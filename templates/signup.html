@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Signup{% endblock %}
+
+{% block content %}
+
+    <div class="account-page">
+      <div class="container">
+        <div class="row">
+          <div class="col-2">
+            <img src="{% static 'images/image1.png' %}" width="100%" />
+          </div>
+          <div class="col-2">
+            <div class="form-container" margin-top="10px">
+              <div class="form-btn">
+                <span>Sign Up</span>
+              </div>
+              <form action=" " method="post" name="form">
+                  {% if form.errors %}
+                    {{form.errors}}
+                    {% endif %}
+                  {% csrf_token %}
+                <input type="text" placeholder="Username"  name="username" required />
+                <input type="text" placeholder="First Name"  name="first_name" required />
+                <input type="text" placeholder="Last Name"  name="last_name" required />
+                <input type="email" placeholder="Email" name="email" required/>
+                <input type="password" placeholder="Password" name="password1" required/>
+                <input type="password" placeholder="Repeat Password" name="password2" required/>
+
+                <button type="submit" class="btn">Sign Up</button>
+                <a href = "/accounts/password_reset/">Forgot Password  |</a>
+                  <a href = "{% url 'login' %}">Log In</a>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}
