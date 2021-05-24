@@ -25,12 +25,13 @@
 
       <div class="row">
           {%for toy in toys %}
+              <a href="{{toy.get_absolute_url}}" class="without_style">
         <div class="col-4">
           <img src="{{toy.image.url}}" alt="" width="50px" height="200px"/>
           <h4>{{toy.name}}</h4>
           <p>${{toy.price}}</p>
         </div>
-
+              </a>
           {% endfor %}
         </div>
       </div>

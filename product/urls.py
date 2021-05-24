@@ -11,7 +11,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name="home.html"), name='home'),
     path('catalog/', v.toys_list, name='catalog'),
     path('catalog/<slug>', v.toys_list, name='filter'),
-    # path('product/<id>', v.product_detail, name='product'),
+    path('toy/<id>', v.toy_detail, name='toy'),
     # path('', v.HomeView.as_view(), name='home'),
 ]
 urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -14,8 +14,9 @@ def toys_list(request, slug=None):
     return render(request, 'catalog.html', {'type_toy': type_toy, 'types_toy': types_toy, 'toys': toys})
 
 
-# def product_detail(request, id):
-#     cart_product_form = CartAddProductForm()
-#     product = get_object_or_404(Product, id=id, available=True)
-#     return render(request, 'product.html', {'product': product, 'cart_form': cart_product_form})
+def toy_detail(request, id):
+    # cart_product_form = CartAddProductForm()
+    toy = get_object_or_404(Toy, id=id, available=True)
+    return render(request, 'detail.html', {'toy': toy})
+    # return render(request, 'product.html', {'product': product, 'cart_form': cart_product_form})
 

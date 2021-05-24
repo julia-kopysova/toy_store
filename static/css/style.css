@@ -34,6 +34,9 @@ a {
   text-decoration: none;
   color: #555;
 }
+.row a{
+  width:30%;
+}
 
 p {
   color: #555;

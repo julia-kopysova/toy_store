@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}Product Detail{% endblock %}
+
+{% block content %}
+<!-- Single Products Detail -->
+    <div class="small-container single-product">
+      <div class="row">
+        <div class="col-2">
+          <img src="{{toy.image.url}}" width="100%" id="ProductImg" />
+
+        </div>
+        <div class="col-2">
+          <p>{{ toy.material.name }} {{ toy.color }}</p>
+          <h2>{{ toy.name }}</h2>
+          <h4>${{ toy.price }}</h4>
+            <h4>{{ toy.count }}</h4>
+          <input type="number" name="quantity" max="{{ toy.count }}" min="1" value="1" />
+          <a href="" class="btn">Add to Cart</a>
+          <h3>Toy Details</h3>
+          <br />
+            <p>
+             Size: {{ toy.size }}
+          </p>
+          <p>
+              {{ toy.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}
+
+
+
