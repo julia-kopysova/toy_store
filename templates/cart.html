@@ -31,10 +31,10 @@
           <td>
               <form action="{% url 'add' toy.id %}" method="post">
                   {% csrf_token %}
-                  <p>{{ item.quantity }}</p>
+
               <input name="quantity" type="number" max="{{ toy.count }}" min="1" value="{{item.quantity}}" />
               <input type="hidden" name="update" value="True" id="id_update">
-              <input type="submit" value="Update">
+              <input class="btn" type="submit" value="Update">
 
               </form>
           </td>
