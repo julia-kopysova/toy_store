@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}Product Detail{% endblock %}
+
+{% block content %}
+   <!-- Cart Items Details -->
+    <div class="small-container cart-page">
+      <table>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+        </tr>
+
+          {% for item in cart %}
+              {% with toy=item.product %}
+        <tr>
+          <td>
+            <div class="cart-info">
+              <img src="{{toy.image.url}}" alt="" />
+              <div>
+                <p>{{ toy.name }}</p>
+                <small>Price: ${{ item.price }}</small>
+                <br />
+                <a href="{% url 'remove' toy.id %}">Remove</a>
+              </div>
+            </div>
+          </td>
+          <td>
+              <form action="{% url 'add' toy.id %}" method="post">
+                  {% csrf_token %}
+                  <p>{{ item.quantity }}</p>
+              <input name="quantity" type="number" max="{{ toy.count }}" min="1" value="{{item.quantity}}" />
+              <input type="hidden" name="update" value="True" id="id_update">
+              <input type="submit" value="Update">
+
+              </form>
+          </td>
+          <td>${{ item.total_price }}</td>
+        </tr>
+        {% endwith %}
+        {% endfor %}
+
+
+      </table>
+
+      <div class="total-price">
+        <table>
+          <tr>
+            <td>Total</td>
+            <td>${{cart.get_total_price}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+{% endblock content %}

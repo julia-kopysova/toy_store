@@ -17,8 +17,12 @@
           <h2>{{ toy.name }}</h2>
           <h4>${{ toy.price }}</h4>
             <h4>{{ toy.count }}</h4>
-          <input type="number" name="quantity" max="{{ toy.count }}" min="1" value="1" />
-          <a href="" class="btn">Add to Cart</a>
+            <form action="{% url 'add' id=toy.id %}" method="post">
+                <input type="number" name="quantity" max="{{ toy.count }}" min="1" value="1" />
+{#                <a href="" >Add to Cart</a>#}
+                {% csrf_token %}
+                <input type="submit" class="btn" value="Add to cart">
+            </form>
           <h3>Toy Details</h3>
           <br />
             <p>
