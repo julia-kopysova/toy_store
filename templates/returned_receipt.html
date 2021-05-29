@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Success{% endblock %}
+
+
+
+{% block content %}
+     <div class="container">
+        <div class="row">
+<p>Your order number: {{order.id}}</p>
+        </div>
+     </div>
+
+{% endblock %}

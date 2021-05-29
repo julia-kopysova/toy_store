@@ -5,6 +5,7 @@ from .forms import SignUpForm, EditAccountForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from receipt.models import Receipt, ReceiptHasToy
 
 
 # from chechout.models import Order, OrderHasProduct
@@ -41,17 +42,16 @@ def change_password(response):
 
 def own_account(request):
     user = request.user
-    # orders = Order.objects.filter(user=user)
-    # array = []
-    # for order in orders:
-    #     one_id = order.id
-    #     one_order = get_object_or_404(Order, id=one_id)
-    #     orderhasproduct = OrderHasProduct.objects.filter(order = one_order)
-    #     for o in orderhasproduct:
-    #         array.append(o)
-    # return render(request,'account.html', {'orders':orders, 'array':array})
-    return render(request, 'account.html', {'user': user})
-
+    receipts = Receipt.objects.filter(user=user)
+    list_receipts = []
+    for receipt in receipts:
+        one_id = receipt.id
+        one_receipt = get_object_or_404(Receipt, id=one_id)
+        receipt_toy = ReceiptHasToy.objects.filter(receipt=one_receipt)
+        for position in receipt_toy:
+            list_receipts.append(position)
+    return render(request, 'account.html', {'receipts': receipts, 'list_receipts': list_receipts, 'user': user})
+    # return render(request, 'account.html', {'user': user})
 
 # def edit_account(response):
 #     if response.method == "POST":

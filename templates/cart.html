@@ -7,6 +7,7 @@
 {% block content %}
    <!-- Cart Items Details -->
     <div class="small-container cart-page">
+    {% if cart.empty == False %}
       <table>
         <tr>
           <th>Product</th>
@@ -51,8 +52,17 @@
           <tr>
             <td>Total</td>
             <td>${{cart.get_total_price}}</td>
+
           </tr>
         </table>
+
       </div>
+    <a class="btn"  href="{% url 'checkout' %}">Create order</a>
+    <a class="btn"  href="{% url 'delete_all' %}">Delete all</a>
+        <a class="btn"  href="{% url 'catalog' %}">Choose more</a>
+
+    {% else %}
+        <a class="btn"  href="{% url 'catalog' %}">Add to cart toys</a>
+    {% endif %}
     </div>
 {% endblock content %}

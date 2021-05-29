@@ -5,19 +5,34 @@
 {% block title %}Account{% endblock %}
 
 {% block content %}
-
+<aside>
     <div class="container">
     <div class="row">
-
-        <div class="col-4">
+    <section>
+        <div class="col-2">
 
           <h4>{{ user.first_name }}</h4>
             <h4>{{ user.last_name }}</h4>
             <h4>{{ user.username }}</h4>
-            <a href = "{% url 'change_password' %}"><h4>Change Password</h4></a>
-        </div>
+            <a class ="btn" href = "{% url 'change_password' %}">Change Password</a>
 
+        </div>
+    </section>
+        <section>
+            <div class="col-2">
+                {% for receipt in list_receipts %}
+            <div class="form-container-orders">
+            <h4>Order number: {{ receipt.receipt.id }}</h4>
+            <p>{{receipt.toy.name}} x {{receipt.count}}</p>
+
+            <p> Status: {{receipt.receipt.status}}</p>
+            <p> $ {{receipt.receipt.amount}}</p>
+            </div>
+                {% endfor %}
+            </div>
+
+        </section>
         </div>
     </div>
-
+</aside>
 {% endblock %}

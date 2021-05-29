@@ -71,6 +71,7 @@ form ul{
   min-width: 300px;
 
 }
+
 .col-2 img {
   max-width: 100%;
   padding: 10px 0;
@@ -117,7 +118,14 @@ form ul{
 .col-3 img {
   width: 100%;
 }
-
+ aside{
+   display: flex;
+   flex-direction: column;
+ }
+ aside section{
+   justify-content: center;
+   width: 30%;
+ }
 .small-container {
   max-width: 1080px;
   margin: auto;
@@ -527,7 +535,26 @@ th:last-child {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
-
+.form-container-orders{
+  background: #fff;
+  width: 300px;
+  height: 200px;
+  position: relative;
+  text-align: center;
+  padding: 20px 0;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+.form-container-delivery{
+  background: #fff;
+  width: 300px;
+  height: 300px;
+  position: relative;
+  text-align: center;
+  padding: 20px 0;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
 .form-container span {
   font-weight: bold;
   padding: 0 10px;
@@ -536,11 +563,25 @@ th:last-child {
   width: 100px;
   display: inline-block;
 }
-
+.form-container-delivery span {
+  font-weight: bold;
+  padding: 0 10px;
+  color: #555;
+  cursor: pointer;
+  width: 100px;
+  display: inline-block;
+}
 .form-btn {
   display: inline-block;
 }
 .form-container form {
+  max-width: 300px;
+  padding: 0 20px;
+  position: absolute;
+  top: 130px;
+  transition: transform 1s;
+}
+.form-container-delivery form {
   max-width: 300px;
   padding: 0 20px;
   position: absolute;
