@@ -30,7 +30,8 @@ logging.config.dictConfig(LOGGING)
 def cart_add(request, id):
     cart = Cart(request)
     logging.info(cart)
-    toy = get_object_or_404(Toy, id=id)
+    # toy = get_object_or_404(Toy, id=id)
+    toy = Toy.objects.raw("SELECT * FROM product_toy WHERE id = %s", [id])[0]
     form = CartAddProductForm(request.POST)
     if form.is_valid():
         cd = form.cleaned_data

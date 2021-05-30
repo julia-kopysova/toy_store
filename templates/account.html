@@ -11,10 +11,10 @@
     <section>
         <div class="col-2">
 
-          <h4>{{ user.first_name }}</h4>
-            <h4>{{ user.last_name }}</h4>
-            <h4>{{ user.username }}</h4>
-            <a class ="btn" href = "{% url 'change_password' %}">Change Password</a>
+          <h4>Name: {{ user.first_name }}</h4>
+            <h4>Surname: {{ user.last_name }}</h4>
+            <h4>Username: {{ user.username }}</h4>
+            <a class="btn" href = "{% url 'change_password' %}">Change Password</a>
 
         </div>
     </section>

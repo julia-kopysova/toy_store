@@ -1,14 +1,27 @@
+import logging
+import sys
+
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SignUpForm, EditAccountForm
-# from django.urls import reverse_lazy
-# from django.views import generic
+from .forms import SignUpForm
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from receipt.models import Receipt, ReceiptHasToy
 
-
-# from chechout.models import Order, OrderHasProduct
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+        }
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO'
+    }
+}
+logging.config.dictConfig(LOGGING)
 
 
 def signup(response):
@@ -42,12 +55,16 @@ def change_password(response):
 
 def own_account(request):
     user = request.user
-    receipts = Receipt.objects.filter(user=user)
+    # receipts = Receipt.objects.filter(user=user)
+    receipts = Receipt.objects.raw("SELECT * FROM receipt_receipt WHERE user_id = %s", [user.id])
     list_receipts = []
     for receipt in receipts:
         one_id = receipt.id
-        one_receipt = get_object_or_404(Receipt, id=one_id)
+        # one_receipt = get_object_or_404(Receipt, id=one_id)
+        one_receipt = Receipt.objects.raw("SELECT * FROM receipt_receipt WHERE id = %s", [one_id])[0]
         receipt_toy = ReceiptHasToy.objects.filter(receipt=one_receipt)
+        receipt_toy = ReceiptHasToy.objects.raw("SELECT * FROM receipt_receipthastoy WHERE receipt_id = %s",
+                                                [one_receipt.id])
         for position in receipt_toy:
             list_receipts.append(position)
     return render(request, 'account.html', {'receipts': receipts, 'list_receipts': list_receipts, 'user': user})

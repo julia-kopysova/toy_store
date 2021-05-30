@@ -37,7 +37,9 @@ a {
 .row a{
   width:30%;
 }
-
+.row .col-2 a{
+  width:auto;
+}
 p {
   color: #555;
 }
