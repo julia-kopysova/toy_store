@@ -1,11 +1,16 @@
 import logging
 import logging.config
 import sys
+from datetime import datetime
+from django.utils import timezone
+# from django.utils.timezone import pytz, now
 
-from django.shortcuts import render, get_object_or_404
+from django.db import connection
+from django.shortcuts import render, redirect
 
 from cart.cart import Cart
 from product.models import Toy
+from toy_store import settings
 from .forms import DeliveryForm
 from .models import Receipt, ReceiptHasToy, Delivery
 
@@ -33,17 +38,26 @@ def create_receipt(request):
     if request.method == 'POST':
         if form.is_valid():
             cd = form.cleaned_data
-            delivery = Delivery(user=user, address=cd['address'], phone=cd['phone'])
-            delivery.save()
+            with connection.cursor() as cursor:
+                cursor.execute("INSERT INTO receipt_delivery(user_id, address, phone) "
+                               "VALUES (%s , %s, %s)", [user.id, cd['address'], cd['phone']])
+                id_delivery = cursor.lastrowid
+                logging.info(id_delivery)
             total_price = cart.get_total_price()
-            created_receipt = Receipt(user=user, delivery=delivery, amount=total_price)
-            created_receipt.save()
+            with connection.cursor() as cursor:
+                cursor.execute("INSERT INTO receipt_receipt(user_id, date, delivery_id, amount, status) "
+                               "VALUES (%s, %s, %s, %s, %s)",
+                               [user.id, timezone.now(), id_delivery, total_price,
+                                "Accepted"])
+                id_receipt = cursor.lastrowid
+                logging.info(id_receipt)
             for position in cart:
-                receipt_has_toy = ReceiptHasToy.objects.create(receipt=created_receipt, toy=position['product'],
-                                                               price=position['price'],
-                                                               count=position['quantity'])
                 product = position['product']
-                our_product = get_object_or_404(Toy, id=product.id)
+                our_product = Toy.objects.raw("SELECT * FROM product_toy WHERE id=%s", [product.id])[0]
+                with connection.cursor() as cursor:
+                    cursor.execute("INSERT INTO receipt_receipthastoy(receipt_id, toy_id, "
+                                   "price, count) VALUES (%s, %s, %s, %s)", [id_receipt, our_product.id,
+                                                                             position['price'], position['quantity']])
                 if position['quantity'] < our_product.count:
                     our_product.count = our_product.count - position['quantity']
                 else:
@@ -51,10 +65,17 @@ def create_receipt(request):
                     our_product.count = 1
                 our_product.save()
             cart.clear()
-            return render(request, 'returned_receipt.html', {'order': created_receipt})
+            return render(request, 'returned_receipt.html', {'order': id_receipt})
         else:
             form = DeliveryForm(request.POST)
     return render(request, 'checkout.html', {'form': form})
+
+
+# def cancel_receipt(request, id):
+#     with connection.cursor() as cursor:
+#         cursor.execute("UPDATE receipt_receipt SET status = %s WHERE id = %s", ["Canceled", id])
+#         cursor.execute("UPDATE product_toy SET status = %s WHERE id = %s", ["Canceled", id])
+#     return redirect('account')
 
 # def display_info(request):
 # user = request.user

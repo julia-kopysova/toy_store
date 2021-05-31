@@ -1,6 +1,24 @@
+import logging
+import sys
 from decimal import Decimal
 from django.conf import settings
 from product.models import Toy
+
+
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+        }
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO'
+    }
+}
+logging.config.dictConfig(LOGGING)
 
 
 class Cart(object):
@@ -10,6 +28,8 @@ class Cart(object):
         if not cart:
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
+        logging.info(type(self.cart))
+        logging.info(type(self.session))
 
     def add(self, toy, quantity=1, update_quantity=False):
         toy_id = str(toy.id)

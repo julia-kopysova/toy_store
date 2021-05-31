@@ -1,9 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
 import logging
 import logging.config
 import sys
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 
 from product.models import Toy
@@ -44,7 +43,8 @@ def cart_add(request, id):
 
 def cart_remove(request, id):
     cart = Cart(request)
-    toy = get_object_or_404(Toy, id=id)
+    # toy = get_object_or_404(Toy, id=id)
+    toy = Toy.objects.raw("SELECT * FROM product_toy WHERE id = %s", [id])[0]
     cart.remove(toy)
     return redirect('cart')
 

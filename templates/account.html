@@ -20,13 +20,19 @@
     </section>
         <section>
             <div class="col-2">
-                {% for receipt in list_receipts %}
+                {% for receipt, list in dict_receipts.items %}
             <div class="form-container-orders">
-            <h4>Order number: {{ receipt.receipt.id }}</h4>
-            <p>{{receipt.toy.name}} x {{receipt.count}}</p>
-
-            <p> Status: {{receipt.receipt.status}}</p>
-            <p> $ {{receipt.receipt.amount}}</p>
+            <h4>Order number: {{ receipt.id }}</h4>
+{#            {% if receipt.status == "Accepted" %}#}
+{#            <a href="{% url 'cancel' receipt.id %}"><img src="{% static 'images/cancel.jpg' %}" width="30px"#}
+{#                                                         height="50px" /></a>#}
+{#            {% endif %}#}
+{#            <p>{{receipt.toy.name}} x {{receipt.count}}</p>#}
+                {% for i in list %}
+            <p>{{ i.count }} x {{ i.name }}</p>
+                    {%  endfor  %}
+            <p> Status: {{receipt.status}}</p>
+            <p> $ {{receipt.amount}}</p>
             </div>
                 {% endfor %}
             </div>
