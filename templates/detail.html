@@ -16,7 +16,7 @@
           <p>{{ toy.material.name }} {{ toy.color }}</p>
           <h2>{{ toy.name }}</h2>
           <h4>${{ toy.price }}</h4>
-            <h4>{{ toy.count }}</h4>
+            <h4>Available: {{ toy.count }}</h4>
             {% if user.is_authenticated %}
             <form action="{% url 'add' id=toy.id %}" method="post">
                 <input type="number" name="quantity" max="{{ toy.count }}" min="1" value="1" />

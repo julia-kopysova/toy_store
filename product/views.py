@@ -7,12 +7,12 @@ def toys_list(request, slug=None):
     # types_toy = Type.objects.all()
     types_toy = Type.objects.raw("SELECT * FROM product_type")
     # toys = Toy.objects.filter(available=True)
-    toys = Toy.objects.raw("SELECT * FROM product_toy WHERE available=%s", [True])
+    toys = Toy.objects.raw("SELECT * FROM product_toy WHERE available=%s ORDER BY name", [True])
     if slug:
         # type_toy = get_object_or_404(Type, slug=slug)
         type_toy = Type.objects.raw("SELECT * FROM product_type WHERE slug=%s", [slug])[0]
         # toys = toys.filter(type=type_toy)
-        toys = Toy.objects.raw("SELECT * FROM product_toy WHERE type_id=%s", [type_toy.id])
+        toys = Toy.objects.raw("SELECT * FROM product_toy WHERE type_id=%s ORDER BY name", [type_toy.id])
 
     return render(request, 'catalog.html', {'type_toy': type_toy, 'types_toy': types_toy, 'toys': toys})
 

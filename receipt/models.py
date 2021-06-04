@@ -19,6 +19,8 @@ class Receipt(models.Model):
     STATUS_CHOICES = (
         ('Accepted', 'Accepted'),
         ('Contacted', 'Contacted'),
+        ('Packed', 'Packed'),
+        ('Delivered', 'Delivered'),
         ('Completed', 'Completed'),
         ('Canceled', 'Canceled'),
     )
